@@ -1,12 +1,17 @@
 import { decodeBase64 } from '../../utils.js';
 import { parseSubscriptionContent } from './subscriptionContentParser.js';
 
+const base64Regex = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$/
+
 /**
  * Decode content, trying Base64 first, then URL decoding if needed
  * @param {string} text - Raw text content
  * @returns {string} - Decoded content
  */
 function decodeContent(text) {
+    if (!base64Regex.test(text)) {
+        return text;
+    }
     let decodedText;
     try {
         decodedText = decodeBase64(text.trim());
