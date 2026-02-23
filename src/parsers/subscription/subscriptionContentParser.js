@@ -145,10 +145,21 @@ export function parseClashYaml(content) {
  */
 export function parseSurgeIni(content) {
     // Quick heuristic: Surge configs have [Proxy] or [General] sections
-    const hasSurgeSection = /\[Proxy\]/i.test(content) ||
-        (/\[General\]/i.test(content) && /\[Rule\]/i.test(content));
-    if (!hasSurgeSection) {
+    // const hasSurgeSection = /\[Proxy\]/i.test(content) ||
+    //     (/\[General\]/i.test(content) && /\[Rule\]/i.test(content));
+    // if (!hasSurgeSection) {
+    //     return null;
+    // }
+    
+    const lines = content.split(/(\r?\n)+/).map(line => line.trim()).filter(line => line.length > 0);
+    const isSurgeConfig = lines.every(line => (line.match(/^[^=]+=/) || line.match(/^\[\w+\]$/)));
+    if (!isSurgeConfig) {
         return null;
+    }
+    
+    const hasAnyIniSection = lines.some(line => line.match(/^\[\w+\]$/));
+    if (!hasAnyIniSection) {
+        content = '[Proxy]\n' + content;
     }
 
     try {

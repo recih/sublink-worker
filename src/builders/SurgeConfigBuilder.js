@@ -128,6 +128,12 @@ export class SurgeConfigBuilder extends BaseConfigBuilder {
                     surgeProxy += `, udp-relay-mode=${proxy.udp_relay_mode}`;
                 }
                 break;
+            case 'snell':
+                surgeProxy = `${proxy.tag} = snell, ${proxy.server}, ${proxy.server_port}, psk=${proxy.psk}, version=${proxy.version},`;
+                if (proxy.obfs) {
+                    surgeProxy += `, obfs=${proxy.obfs.type}, obfs-password=${proxy.obfs.password}, obfs-host=${proxy.obfs.host}`;
+                }
+                break;
             default:
                 surgeProxy = `# ${proxy.tag} - Unsupported proxy type: ${proxy.type}`;
         }

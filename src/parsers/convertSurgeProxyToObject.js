@@ -184,6 +184,20 @@ export function convertSurgeProxyToObject(line) {
                     password: params['obfs-password']
                 } : undefined
             };
+        case 'snell':
+            return {
+                tag,
+                type: 'snell',
+                server,
+                server_port: port,
+                version: params.version || '2',
+                psk: params.psk,
+                obfs: params.obfs ? {
+                    type: params.obfs,
+                    password: params['obfs-password'],
+                    host: params['obfs-host']
+                } : undefined
+            };
 
         case 'http':
         case 'https':
