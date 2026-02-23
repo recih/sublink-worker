@@ -286,7 +286,13 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     ...(proxy['min-idle-session'] !== undefined ? { 'min-idle-session': proxy['min-idle-session'] } : {}),
                 };
             default:
-                return proxy; // Return as-is if no specific conversion is defined
+                return {
+                    ...proxy,
+                    name: proxy.tag,
+                    type: proxy.type,
+                    server: proxy.server,
+                    port: proxy.server_port,
+                }; // Return as-is if no specific conversion is defined
         }
     }
 
