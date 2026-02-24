@@ -285,6 +285,18 @@ export class ClashConfigBuilder extends BaseConfigBuilder {
                     ...(proxy['idle-session-timeout'] !== undefined ? { 'idle-session-timeout': proxy['idle-session-timeout'] } : {}),
                     ...(proxy['min-idle-session'] !== undefined ? { 'min-idle-session': proxy['min-idle-session'] } : {}),
                 };
+            case 'snell':
+                if ((proxy.version || 2) >= 5) {
+                    return undefined;
+                }
+                return {
+                    name: proxy.tag,
+                    type: proxy.type,
+                    server: proxy.server,
+                    port: proxy.server_port,
+                    psk: proxy.psk,
+                    obfs: proxy.obfs,
+                };
             default:
                 return {
                     ...proxy,
