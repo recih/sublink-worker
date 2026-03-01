@@ -275,6 +275,7 @@ export class SurgeConfigBuilder extends BaseConfigBuilder {
     addNodeSelectGroup(proxyList) {
         const options = this.buildNodeSelectOptions(proxyList);
         if (this.hasProxyGroup(this.t('outboundNames.Node Select'))) return;
+        this.config['proxy-groups'] ??= [];
         this.config['proxy-groups'].push(
             this.createProxyGroup(this.t('outboundNames.Node Select'), 'select', options)
         );
